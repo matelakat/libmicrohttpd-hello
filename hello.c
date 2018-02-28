@@ -18,7 +18,7 @@ static int ahc_echo(void * cls,
                     void ** ptr) {
   static int dummy;
   const char * page = cls;
-  struct MHD_Response * response;
+  struct MHD_Response * response = NULL;
   int ret;
 
   if (0 != strcmp(method, "GET"))
@@ -33,10 +33,10 @@ static int ahc_echo(void * cls,
   if (0 != *upload_data_size)
     return MHD_NO; /* upload data in a GET!? */
   *ptr = NULL; /* clear context pointer */
-  response = MHD_create_response_from_data(strlen(page),
-					   (void*) page,
-					   MHD_NO,
-					   MHD_NO);
+  response = MHD_create_response_from_buffer(strlen(page),
+                                             (void *) page,
+                                             MHD_RESPMEM_PERSISTENT);
+
   ret = MHD_queue_response(connection,
 			   MHD_HTTP_OK,
 			   response);
