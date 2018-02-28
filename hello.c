@@ -33,7 +33,6 @@ static int ahc_echo(void * cls,
   if (0 != *upload_data_size)
     return MHD_NO; /* upload data in a GET!? */
   *ptr = NULL; /* clear context pointer */
-
   response = MHD_create_response_from_buffer(strlen(page),
                                              (void *) page,
                                              MHD_RESPMEM_PERSISTENT);
